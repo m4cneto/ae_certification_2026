@@ -1,0 +1,98 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram name="Modelo Conceitual" id="modelo">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="titulo" value="Adventure Works: Modelo Conceitual do Data Warehouse" style="text;html=1;fontSize=22;fontStyle=1;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="800" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitulo" value="Star schema. Grão do fato: uma linha por item de pedido (salesorderdetailid). Em cinza, as tabelas de origem de cada objeto." style="text;html=1;fontSize=13;align=left;verticalAlign=middle;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="68" width="900" height="26" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fct" value="&lt;b&gt;fct_sales&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;font style=&quot;font-size:11px&quot;&gt;sales_order_detail_id (PK)&lt;br&gt;sales_order_id&lt;br&gt;date_key (FK)&lt;br&gt;customer_key (FK)&lt;br&gt;product_key (FK)&lt;br&gt;credit_card_key (FK)&lt;br&gt;geography_key (FK)&lt;br&gt;status_key (FK)&lt;br&gt;is_online_order&lt;br&gt;is_promotion&lt;br&gt;&lt;br&gt;&lt;b&gt;order_qty&lt;br&gt;unit_price&lt;br&gt;gross_revenue&lt;br&gt;discount_amount&lt;br&gt;net_revenue&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#dae8fc;strokeColor=#2e3fb8;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="640" y="400" width="230" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="fctSrc" value="origem: salesorderdetail + salesorderheader" style="text;html=1;fontSize=10;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="620" y="705" width="270" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dimDate" value="&lt;b&gt;dim_date&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;font style=&quot;font-size:11px&quot;&gt;date_key (PK)&lt;br&gt;year_number&lt;br&gt;month_number&lt;br&gt;quarter_number&lt;br&gt;year_month&lt;br&gt;month_short_name&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="640" y="160" width="230" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="dimDateSrc" value="origem: gerada pelo dbt (date_spine)" style="text;html=1;fontSize=10;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="640" y="292" width="230" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dimProduct" value="&lt;b&gt;dim_product&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;font style=&quot;font-size:11px&quot;&gt;product_key (PK)&lt;br&gt;product_name&lt;br&gt;product_number&lt;br&gt;subcategory_name&lt;br&gt;category_name&lt;br&gt;color / size&lt;br&gt;standard_cost / list_price&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="280" y="180" width="230" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="dimProductSrc" value="origem: product + productsubcategory + productcategory" style="text;html=1;fontSize=10;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="240" y="322" width="310" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dimCustomer" value="&lt;b&gt;dim_customer&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;font style=&quot;font-size:11px&quot;&gt;customer_key (PK)&lt;br&gt;customer_type&lt;br&gt;customer_name&lt;br&gt;first_name&lt;br&gt;last_name&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="280" y="430" width="230" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="dimCustomerSrc" value="origem: customer + person + store" style="text;html=1;fontSize=10;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="280" y="552" width="230" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dimGeo" value="&lt;b&gt;dim_geography&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;font style=&quot;font-size:11px&quot;&gt;geography_key (PK)&lt;br&gt;city&lt;br&gt;state_province&lt;br&gt;state_province_code&lt;br&gt;country&lt;br&gt;country_code&lt;br&gt;postal_code&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="280" y="660" width="230" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="dimGeoSrc" value="origem: address + stateprovince + countryregion (endereço de entrega)" style="text;html=1;fontSize=10;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="200" y="802" width="390" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dimCard" value="&lt;b&gt;dim_credit_card&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;font style=&quot;font-size:11px&quot;&gt;credit_card_key (PK)&lt;br&gt;card_type&lt;br&gt;&lt;br&gt;inclui o membro -1&lt;br&gt;&quot;Sem cartão&quot;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="180" width="230" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="dimCardSrc" value="origem: creditcard" style="text;html=1;fontSize=10;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="302" width="230" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dimStatus" value="&lt;b&gt;dim_order_status&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;font style=&quot;font-size:11px&quot;&gt;status_key (PK)&lt;br&gt;status_name&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="430" width="230" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="dimStatusSrc" value="origem: seed order_status.csv (o OLTP só guarda o código de 1 a 6)" style="text;html=1;fontSize=10;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="960" y="522" width="330" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="bridge" value="&lt;b&gt;br_order_sales_reason&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;font style=&quot;font-size:11px&quot;&gt;sales_order_id&lt;br&gt;sales_reason_key&lt;br&gt;&lt;br&gt;&lt;i&gt;bridge: resolve o&lt;br&gt;muitos-para-muitos&lt;/i&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#fff2cc;strokeColor=#9a5b00;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="640" width="230" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="bridgeSrc" value="origem: salesorderheadersalesreason" style="text;html=1;fontSize=10;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="990" y="772" width="270" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dimReason" value="&lt;b&gt;dim_sales_reason&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;font style=&quot;font-size:11px&quot;&gt;sales_reason_key (PK)&lt;br&gt;sales_reason_name&lt;br&gt;sales_reason_type&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="640" width="210" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="dimReasonSrc" value="origem: salesreason" style="text;html=1;fontSize=10;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="752" width="210" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;startArrow=none;strokeColor=#2e3fb8;" edge="1" parent="1" source="dimDate" target="fct"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;startArrow=none;strokeColor=#2e3fb8;" edge="1" parent="1" source="dimProduct" target="fct"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;startArrow=none;strokeColor=#2e3fb8;" edge="1" parent="1" source="dimCustomer" target="fct"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;startArrow=none;strokeColor=#2e3fb8;" edge="1" parent="1" source="dimGeo" target="fct"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;startArrow=none;strokeColor=#2e3fb8;" edge="1" parent="1" source="dimCard" target="fct"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;startArrow=none;strokeColor=#2e3fb8;" edge="1" parent="1" source="dimStatus" target="fct"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" value="sales_order_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;startArrow=none;strokeColor=#9a5b00;dashed=1;fontSize=10;" edge="1" parent="1" source="bridge" target="fct"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;startArrow=none;strokeColor=#9a5b00;" edge="1" parent="1" source="dimReason" target="bridge"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="nota" value="&lt;b&gt;Por que a bridge existe&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;Um pedido pode ter vários motivos de venda. Ligar o motivo direto ao fato multiplicaria cada item pelo número de motivos e inflaria a receita. A bridge isola esse relacionamento. A pergunta &quot;f&quot; do enunciado é respondida pela flag is_promotion, dentro do próprio fato.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fillColor=#fbeedb;strokeColor=#9a5b00;" vertex="1" parent="1">
+          <mxGeometry x="40" y="900" width="420" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="nota2" value="&lt;b&gt;Por que o grão é o item do pedido&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;É o nível mais fino disponível e atende todas as seis perguntas. Em contrapartida, os valores de cabeçalho (frete, imposto, subtotal) ficaram fora do fato: eles se repetem em cada item e qualquer soma ficaria inflada. Número de pedidos é sempre COUNT(DISTINCT sales_order_id).&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fillColor=#e6e9fb;strokeColor=#2e3fb8;" vertex="1" parent="1">
+          <mxGeometry x="500" y="900" width="430" height="130" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

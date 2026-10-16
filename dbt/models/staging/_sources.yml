@@ -1,0 +1,108 @@
+version: 2
+
+sources:
+  - name: adventure_works
+    description: "Dados crus do AdventureWorks OLTP, carregados pelo processo de EL."
+    schema: "{{ var('source_schema') }}"
+    tables:
+
+      - name: salesorderheader
+        description: "Cabecalho do pedido de venda. Um registro por pedido."
+        columns:
+          - name: salesorderid
+            tests: [unique, not_null]
+          - name: customerid
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('adventure_works', 'customer')
+                    field: customerid
+          - name: orderdate
+            tests: [not_null]
+
+      - name: salesorderdetail
+        description: "Itens do pedido. Um registro por linha de produto."
+        columns:
+          - name: salesorderdetailid
+            tests: [unique, not_null]
+          - name: salesorderid
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('adventure_works', 'salesorderheader')
+                    field: salesorderid
+          - name: productid
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('adventure_works', 'product')
+                    field: productid
+          - name: orderqty
+            tests: [not_null]
+
+      - name: customer
+        columns:
+          - name: customerid
+            tests: [unique, not_null]
+
+      - name: store
+        columns:
+          - name: businessentityid
+            tests: [unique, not_null]
+
+      - name: creditcard
+        columns:
+          - name: creditcardid
+            tests: [unique, not_null]
+          - name: cardtype
+            tests: [not_null]
+
+      - name: salesreason
+        columns:
+          - name: salesreasonid
+            tests: [unique, not_null]
+
+      - name: salesorderheadersalesreason
+        description: "Relacao muitos-para-muitos entre pedido e motivo da venda."
+
+      - name: person
+        columns:
+          - name: businessentityid
+            tests: [unique, not_null]
+
+      - name: address
+        columns:
+          - name: addressid
+            tests: [unique, not_null]
+          - name: city
+            tests: [not_null]
+
+      - name: stateprovince
+        columns:
+          - name: stateprovinceid
+            tests: [unique, not_null]
+
+      - name: countryregion
+        columns:
+          - name: countryregioncode
+            tests: [unique, not_null]
+
+      - name: product
+        columns:
+          - name: productid
+            tests: [unique, not_null]
+          - name: name
+            tests: [not_null]
+
+      - name: productsubcategory
+        columns:
+          - name: productsubcategoryid
+            tests: [unique, not_null]
+
+      - name: productcategory
+        columns:
+          - name: productcategoryid
+            tests: [unique, not_null]

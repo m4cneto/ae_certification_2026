@@ -1,0 +1,31 @@
+name: adventureworks
+version: "1.0.0"
+profile: adventureworks
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+vars:
+  # Schema onde o EL depositou os dados crus. Exigencia do enunciado: usar apenas este.
+  source_schema: adventure_works
+  # Numero auditado pelo CEO (vendas brutas de 2011). Usado pelo teste singular.
+  gross_sales_2011: 12646112.16
+
+models:
+  adventureworks:
+    staging:
+      +materialized: view
+      +schema: staging
+    intermediate:
+      +materialized: view
+      +schema: intermediate
+    marts:
+      +materialized: table
+      +schema: marts
+
+seeds:
+  adventureworks:
+    +schema: marts

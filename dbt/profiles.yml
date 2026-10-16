@@ -1,0 +1,9 @@
+# Alvo local: um unico arquivo .duckdb, sem conta e sem senha.
+# Para trocar de warehouse depois, adicione um target novo aqui e rode com --target.
+adventureworks:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../adventureworks.duckdb
+      threads: 4

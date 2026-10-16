@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup do dashboard: Adventure Works</title>
+<style>
+  :root{
+    --bg:#ffffff; --ink:#15181d; --muted:#6b7280; --line:#d6dae1;
+    --fill:#eef0f4; --accent:#2e3fb8; --accent-soft:#e6e9fb; --note:#9a5b00;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:28px;background:#f3f4f6;color:var(--ink);
+       font:14px/1.5 "Segoe UI",system-ui,sans-serif}
+  .guia{max-width:1180px;margin:0 auto 20px}
+  .guia h1{font-size:20px;margin:0 0 6px}
+  .guia p{margin:0;color:var(--muted);max-width:70ch}
+  .tela{max-width:1180px;margin:0 auto;background:var(--bg);border:1px solid var(--line);
+        border-radius:6px;padding:18px}
+  .faixa{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+         padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .titulo{font-size:17px;font-weight:700}
+  .filtros{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+  .filtro{border:1px solid var(--line);border-radius:4px;padding:5px 10px;
+          font-size:12px;color:var(--muted);background:var(--fill)}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+  .kpi{border:1px solid var(--line);border-radius:5px;padding:11px 13px;background:var(--fill)}
+  .kpi .rot{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .kpi .val{font-size:21px;font-weight:700;margin-top:3px}
+  .kpi .var{font-size:11px;color:var(--muted);margin-top:2px}
+  .kpi.destaque{background:var(--accent-soft);border-color:var(--accent)}
+  .kpi.destaque .val{color:var(--accent)}
+  .linha{display:grid;gap:10px;margin-bottom:10px}
+  .l-2{grid-template-columns:2fr 1fr}
+  .l-3{grid-template-columns:repeat(3,1fr)}
+  @media (max-width:820px){.l-2,.l-3{grid-template-columns:1fr}}
+  .viz{border:1px solid var(--line);border-radius:5px;padding:11px 13px;background:var(--bg);
+       min-height:168px;display:flex;flex-direction:column;gap:8px}
+  .viz h3{margin:0;font-size:13px;font-weight:600}
+  .viz .resp{font-size:11px;color:var(--accent);font-family:ui-monospace,monospace}
+  .barras{display:flex;align-items:flex-end;gap:6px;height:92px}
+  .barras i{flex:1;background:var(--accent);opacity:.75;border-radius:2px 2px 0 0;display:block}
+  .barrasH{display:flex;flex-direction:column;gap:5px;justify-content:center;flex:1}
+  .barrasH i{height:11px;background:var(--accent);opacity:.75;border-radius:0 2px 2px 0;display:block}
+  .serie{height:92px;background:
+     linear-gradient(transparent 0 97%,var(--line) 97% 100%) repeat-y,
+     var(--bg);position:relative;border-bottom:1px solid var(--line)}
+  .serie svg{width:100%;height:100%;display:block}
+  .tabela{flex:1;display:flex;flex-direction:column;gap:4px;justify-content:center}
+  .tabela span{height:10px;background:var(--fill);border-radius:2px;display:block}
+  .nota{margin-top:16px;border-left:3px solid var(--note);background:#fbeedb;
+        padding:11px 14px;border-radius:0 5px 5px 0;font-size:13px}
+  .nota b{color:var(--note)}
+  ol.passos{max-width:1180px;margin:18px auto 0;padding-left:20px;color:var(--muted);font-size:13.5px}
+  ol.passos li{margin-bottom:5px}
+</style>
+</head>
+<body>
+
+<div class="guia">
+  <h1>Mockup do dashboard comercial</h1>
+  <p>Wireframe de referência para montar no Figma e depois no Power BI. Os números
+  são exemplo e não vêm dos dados reais, servem só para dar escala aos elementos.
+  Cada visual indica qual pergunta do enunciado ele responde.</p>
+</div>
+
+<div class="tela">
+
+  <div class="faixa">
+    <div class="titulo">Visão Comercial: Adventure Works</div>
+    <div class="filtros">
+      <span class="filtro">Período ▾</span>
+      <span class="filtro">Produto ▾</span>
+      <span class="filtro">Tipo de cartão ▾</span>
+      <span class="filtro">Motivo da venda ▾</span>
+      <span class="filtro">Status ▾</span>
+      <span class="filtro">País / Estado / Cidade ▾</span>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="rot">Receita líquida</div><div class="val">109,8 M</div><div class="var">+18,4% vs ano anterior</div></div>
+    <div class="kpi"><div class="rot">Pedidos</div><div class="val">31.465</div><div class="var">+12,1% vs ano anterior</div></div>
+    <div class="kpi"><div class="rot">Unidades</div><div class="val">274.914</div><div class="var">+9,8% vs ano anterior</div></div>
+    <div class="kpi"><div class="rot">Ticket médio</div><div class="val">3.489</div><div class="var">+5,6% vs ano anterior</div></div>
+    <div class="kpi destaque"><div class="rot">Taxa de desconto</div><div class="val">1,2%</div><div class="var">2,9% nos pedidos em promoção</div></div>
+  </div>
+
+  <div class="linha l-2">
+    <div class="viz">
+      <h3>Receita e pedidos por mês</h3>
+      <div class="resp">pergunta e</div>
+      <div class="serie">
+        <svg viewBox="0 0 400 92" preserveAspectRatio="none" aria-hidden="true">
+          <polyline fill="none" stroke="#2e3fb8" stroke-width="2"
+            points="0,72 33,66 66,70 100,52 133,58 166,40 200,46 233,30 266,36 300,22 333,28 366,14 400,20"/>
+        </svg>
+      </div>
+    </div>
+    <div class="viz">
+      <h3>Receita por categoria</h3>
+      <div class="resp">apoio: mix de produto</div>
+      <div class="barrasH">
+        <i style="width:92%"></i><i style="width:61%"></i><i style="width:34%"></i><i style="width:17%"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="linha l-3">
+    <div class="viz">
+      <h3>Top 10 clientes por valor</h3>
+      <div class="resp">pergunta c</div>
+      <div class="barrasH">
+        <i style="width:96%"></i><i style="width:88%"></i><i style="width:80%"></i><i style="width:71%"></i>
+        <i style="width:65%"></i><i style="width:58%"></i><i style="width:50%"></i><i style="width:43%"></i>
+      </div>
+    </div>
+    <div class="viz">
+      <h3>Top 5 cidades por valor</h3>
+      <div class="resp">pergunta d</div>
+      <div class="barras">
+        <i style="height:94%"></i><i style="height:76%"></i><i style="height:60%"></i>
+        <i style="height:47%"></i><i style="height:33%"></i>
+      </div>
+    </div>
+    <div class="viz">
+      <h3>Ticket médio por produto</h3>
+      <div class="resp">pergunta b</div>
+      <div class="barras">
+        <i style="height:88%"></i><i style="height:74%"></i><i style="height:66%"></i>
+        <i style="height:52%"></i><i style="height:44%"></i><i style="height:31%"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="linha l-2">
+    <div class="viz">
+      <h3>Pedidos, unidades e valor, em detalhe</h3>
+      <div class="resp">pergunta a: matriz, responde aos filtros do painel</div>
+      <div class="tabela">
+        <span style="width:100%"></span><span style="width:97%"></span><span style="width:99%"></span>
+        <span style="width:95%"></span><span style="width:98%"></span><span style="width:93%"></span>
+      </div>
+    </div>
+    <div class="viz">
+      <h3>Unidades em promoção, por produto</h3>
+      <div class="resp">pergunta f</div>
+      <div class="barrasH">
+        <i style="width:98%"></i><i style="width:72%"></i><i style="width:55%"></i>
+        <i style="width:41%"></i><i style="width:26%"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="nota">
+    <b>Leitura da página:</b> os KPIs no topo dão o resumo; os visuais abaixo explicam
+    de onde ele vem. O cartão de taxa de desconto é o único em destaque de propósito, porque
+    é ele que abre a conversa sobre eficiência das promoções, que é a recomendação
+    central da apresentação.
+  </div>
+
+</div>
+
+<ol class="passos">
+  <li>Abra este arquivo no navegador e tire um print como referência de layout.</li>
+  <li>Reproduza no Figma com os nomes reais dos campos. É o JPEG do entregável 4.</li>
+  <li>Monte no Power BI seguindo a mesma ordem de leitura, usando as medidas de <code>bi/medidas-dax.md</code>.</li>
+  <li>Confira visual por visual se as seis perguntas do enunciado foram respondidas.</li>
+</ol>
+
+</body>
+</html>

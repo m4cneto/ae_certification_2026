@@ -1,0 +1,13 @@
+ENTREGA - Analytics Engineer Certification 2026
+Aluno: Manoel Neto
+
+Repositorio dbt (GitHub):
+  https://github.com/SEU_USUARIO/SEU_REPO
+
+Video da apresentacao:
+  https://
+
+Dashboard publicado (se houver):
+  https://
+
+Todos os links acima estao com acesso publico.

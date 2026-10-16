@@ -1,0 +1,183 @@
+version: 2
+
+models:
+
+  - name: fct_sales
+    description: >
+      Tabela fato de vendas. Grao: uma linha por item de pedido.
+      Valores de cabecalho (frete, imposto, subtotal) nao entram aqui porque
+      se repetiriam em cada item do mesmo pedido.
+    columns:
+      - name: sales_order_detail_id
+        description: "Chave primaria. Identificador do item do pedido."
+        tests: [unique, not_null]
+      - name: sales_order_id
+        description: "Pedido ao qual o item pertence. Contagem de pedidos usa distinct desta coluna."
+        tests: [not_null]
+      - name: date_key
+        description: "Data do pedido. Liga em dim_date."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: customer_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_key
+      - name: product_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_key
+      - name: credit_card_key
+        description: "Cartao usado. -1 quando o pedido nao tem cartao."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_credit_card')
+                field: credit_card_key
+      - name: geography_key
+        description: "Endereco de entrega do pedido (ship-to)."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_geography')
+                field: geography_key
+      - name: status_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_order_status')
+                field: status_key
+      - name: is_promotion
+        description: "Verdadeiro quando o pedido tem o motivo de venda 'Promotion'."
+        tests: [not_null]
+      - name: order_qty
+        description: "Quantidade de unidades do item."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 1
+                inclusive: true
+      - name: gross_revenue
+        description: "Receita bruta do item: quantidade x preco unitario, antes do desconto."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+      - name: discount_amount
+        description: "Valor do desconto concedido no item."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+      - name: net_revenue
+        description: "Receita liquida do item: receita bruta menos desconto. Equivale a linetotal na origem."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+  - name: br_order_sales_reason
+    description: "Bridge entre pedido e motivo da venda. Resolve o muitos-para-muitos."
+    columns:
+      - name: sales_order_id
+        tests: [not_null]
+      - name: sales_reason_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_sales_reason')
+                field: sales_reason_key
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [sales_order_id, sales_reason_key]
+
+  - name: dim_date
+    description: "Calendario diario de 2011 a 2014, gerado pelo dbt. Nao existe na origem."
+    columns:
+      - name: date_key
+        tests: [unique, not_null]
+      - name: year_number
+        tests: [not_null]
+
+  - name: dim_product
+    description: "Produtos com sua subcategoria e categoria. Origem: product, productsubcategory, productcategory."
+    columns:
+      - name: product_key
+        tests: [unique, not_null]
+      - name: product_name
+        tests: [not_null]
+      - name: category_name
+        tests: [not_null]
+
+  - name: dim_customer
+    description: "Clientes, pessoa fisica ou revenda. Origem: customer, person, store."
+    columns:
+      - name: customer_key
+        tests: [unique, not_null]
+      - name: customer_type
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Pessoa fisica", "Revenda"]
+      - name: customer_name
+        tests: [not_null]
+
+  - name: dim_geography
+    description: "Cidade, estado e pais do endereco de entrega. Origem: address, stateprovince, countryregion."
+    columns:
+      - name: geography_key
+        tests: [unique, not_null]
+      - name: city
+        tests: [not_null]
+      - name: country
+        tests: [not_null]
+
+  - name: dim_credit_card
+    description: "Tipo de cartao usado no pedido. Inclui o membro -1 para pedidos sem cartao."
+    columns:
+      - name: credit_card_key
+        tests: [unique, not_null]
+      - name: card_type
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Vista", "Distinguish", "SuperiorCard", "ColonialVoice", "Sem cartao"]
+
+  - name: dim_sales_reason
+    description: "Motivos da venda. Origem: salesreason."
+    columns:
+      - name: sales_reason_key
+        tests: [unique, not_null]
+      - name: sales_reason_name
+        tests: [not_null]
+
+  - name: dim_order_status
+    description: "Situacao do pedido. O OLTP guarda apenas o codigo de 1 a 6; os nomes vem de um seed."
+    columns:
+      - name: status_key
+        tests: [unique, not_null]
+      - name: status_name
+        tests: [not_null]

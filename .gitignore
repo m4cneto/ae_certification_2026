@@ -1,0 +1,17 @@
+# dados e artefatos locais
+*.duckdb
+*.duckdb.wal
+.env
+
+# dbt
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+dbt/.user.yml
+
+# python
+__pycache__/
+.ipynb_checkpoints/
+
+# BI
+*.pbix.bak

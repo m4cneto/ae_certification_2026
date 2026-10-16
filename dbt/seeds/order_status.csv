@@ -1,0 +1,7 @@
+status_code,status_name
+1,Em processamento
+2,Aprovado
+3,Separado
+4,Faturado
+5,Enviado
+6,Cancelado
