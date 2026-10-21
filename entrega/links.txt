@@ -2,7 +2,7 @@ ENTREGA - Analytics Engineer Certification 2026
 Aluno: Manoel Neto
 
 Repositorio dbt (GitHub):
-  https://github.com/SEU_USUARIO/SEU_REPO
+  https://github.com/m4cneto/ae_certification_2026
 
 Video da apresentacao:
   https://
