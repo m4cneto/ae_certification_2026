@@ -60,7 +60,7 @@ models:
                 to: ref('dim_order_status')
                 field: status_key
       - name: is_promotion
-        description: "Verdadeiro quando o pedido tem o motivo de venda 'Promotion'."
+        description: "Verdadeiro quando o pedido tem o motivo de venda 'On Promotion'."
         tests: [not_null]
       - name: order_qty
         description: "Quantidade de unidades do item."

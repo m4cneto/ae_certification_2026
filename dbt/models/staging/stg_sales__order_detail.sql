@@ -5,5 +5,6 @@ select
     orderqty            as order_qty,
     unitprice           as unit_price,
     unitpricediscount   as unit_price_discount_pct,
-    linetotal           as line_total
+    -- a origem da Indicium nao traz linetotal; calculado como no AdventureWorks original
+    orderqty * unitprice * (1 - unitpricediscount) as line_total
 from {{ source('adventure_works', 'salesorderdetail') }}

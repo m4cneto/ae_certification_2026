@@ -77,12 +77,10 @@ versionado junto com o projeto.
 
 Requisito do CEO: vendas brutas de 2011 = **12.646.112,16**.
 
-O teste `assert_vendas_brutas_2011` falha se a soma de `net_revenue` dos pedidos de
-2011 divergir em mais de um centavo. A definicao de "vendas brutas" adotada aqui e a
-soma de `line_total`, que corresponde a soma dos `subtotal` dos cabecalhos.
-
-> Se o teste falhar por diferenca pequena quando os dados reais forem carregados,
-> teste `gross_revenue` no lugar e atualize esta secao com a definicao que bate.
+O teste `assert_vendas_brutas_2011` falha se a soma de `gross_revenue` dos pedidos de
+2011 divergir em mais de um centavo. "Vendas brutas" e quantidade vezes preco unitario,
+antes do desconto. Com os dados carregados, o modelo apura 12.646.112,16, igual ao
+numero da auditoria. A receita liquida de 2011 (depois do desconto) e 12.641.672,21.
 
 ## 10. Periodo coberto
 

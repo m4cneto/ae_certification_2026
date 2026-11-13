@@ -46,7 +46,10 @@ def de_postgres(con, dsn):
 
 def de_csv(con, pasta):
     for arquivo in sorted(pathlib.Path(pasta).glob("*.csv")):
-        tabela = arquivo.stem.lower()
+        # o repositorio da Indicium nomeia como schema_tabela (ex: sales_salesorderheader)
+        tabela = arquivo.stem.lower().split("_", 1)[-1]
+        if tabela not in TABELAS:
+            continue
         con.execute(
             f"create or replace table {SCHEMA}.{tabela} as "
             f"select * from read_csv_auto('{arquivo.as_posix()}', header=true)"

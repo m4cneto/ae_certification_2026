@@ -75,7 +75,7 @@ Abra `fct_sales.sql` e o lineage no dbt docs.
 > "Os filtros no topo valem para a pagina inteira: periodo, produto, tipo de cartao,
 > motivo da venda, status e geografia."
 
-> "E aqui esta o achado principal: INSIRA SEU INSIGHT DA EDA."
+> "E aqui esta o achado principal: pedidos em promocao sao 11% dos pedidos, mas so 6% da receita, com metade do ticket medio. A promocao atrai compra pequena; vale medir o retorno antes de ampliar a verba."
 
 ## Bloco 7: Fechamento (4:40 a 5:00)
 

@@ -7,9 +7,9 @@
 -- descubra qual bate ao centavo e registre a definicao em docs/regras-de-negocio.md.
 
 select
-    sum(net_revenue) as valor_apurado,
+    sum(gross_revenue) as valor_apurado,
     {{ var('gross_sales_2011') }} as valor_auditado,
-    sum(net_revenue) - {{ var('gross_sales_2011') }} as diferenca
+    sum(gross_revenue) - {{ var('gross_sales_2011') }} as diferenca
 from {{ ref('fct_sales') }}
 where extract(year from date_key) = 2011
-having abs(sum(net_revenue) - {{ var('gross_sales_2011') }}) > 0.01
+having abs(sum(gross_revenue) - {{ var('gross_sales_2011') }}) > 0.01
