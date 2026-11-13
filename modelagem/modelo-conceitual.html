@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Modelo Conceitual Adventure Works</title>
+<style>
+  @page { size: 1400px 1100px; margin: 0; }
+  :root { --ink:#1b1f27; --muted:#667085; --line:#98a2b3; --fact:#2e3fb8; --dim:#0f766e; --br:#9a5b00; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#fff; color:var(--ink); font:13px/1.45 "Segoe UI", Arial, sans-serif; }
+  .canvas { position:relative; width:1400px; height:1100px; }
+  h1 { position:absolute; left:60px; top:24px; margin:0; font-size:26px; }
+  .sub { position:absolute; left:60px; top:64px; color:var(--muted); font-size:14px; }
+  svg { position:absolute; inset:0; }
+  .box { position:absolute; width:260px; background:#fff; border:2px solid var(--dim); border-radius:6px; overflow:hidden; }
+  .box h2 { margin:0; padding:7px 10px; font-size:15px; color:#fff; background:var(--dim); }
+  .box ul { list-style:none; margin:0; padding:7px 10px; }
+  .box li { padding:1px 0; }
+  .box .src { padding:6px 10px; font-size:11.5px; color:var(--muted); background:#f2f4f7; border-top:1px solid #e4e7ec; }
+  .fact { border-color:var(--fact); width:280px; }
+  .fact h2 { background:var(--fact); }
+  .bridge { border-color:var(--br); }
+  .bridge h2 { background:var(--br); }
+  .pk { font-weight:600; }
+  .fk { color:var(--fact); }
+  .sep { border-top:1px dashed #d0d5dd; margin-top:4px; padding-top:4px; }
+  .note { position:absolute; width:610px; top:900px; border:1px solid #d0d5dd; border-radius:6px; padding:10px 14px; background:#fafafa; font-size:12.5px; }
+  .note b { display:block; margin-bottom:3px; font-size:13.5px; }
+  .legend { position:absolute; right:60px; top:30px; font-size:12px; color:var(--muted); }
+  .legend span { display:inline-block; width:12px; height:12px; border-radius:2px; margin:0 5px 0 14px; vertical-align:-1px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <h1>Adventure Works: Modelo Conceitual do Data Warehouse</h1>
+  <div class="sub">Star schema da área comercial. Grão do fato: uma linha por item de pedido. Em cinza, as tabelas de origem (schema adventure_works).</div>
+  <div class="legend"><span style="background:#2e3fb8"></span>Fato<span style="background:#0f766e"></span>Dimensão<span style="background:#9a5b00"></span>Bridge</div>
+
+  <svg width="1400" height="1100">
+    <g stroke="#98a2b3" stroke-width="2" fill="none">
+      <line x1="320" y1="190" x2="560" y2="300"/>
+      <line x1="320" y1="420" x2="560" y2="400"/>
+      <line x1="320" y1="640" x2="560" y2="480"/>
+      <line x1="1080" y1="195" x2="840" y2="300"/>
+      <line x1="1080" y1="420" x2="840" y2="400"/>
+      <line x1="1080" y1="610" x2="840" y2="480"/>
+      <line x1="700" y1="540" x2="700" y2="720"/>
+      <line x1="840" y1="780" x2="900" y2="780"/>
+    </g>
+    <g fill="#667085" font-size="11" font-family="Segoe UI, Arial">
+      <text x="440" y="232">N : 1</text>
+      <text x="440" y="400">N : 1</text>
+      <text x="440" y="575">N : 1</text>
+      <text x="930" y="235">N : 1</text>
+      <text x="930" y="400">N : 1</text>
+      <text x="930" y="560">N : 1</text>
+      <text x="708" y="640">sales_order_id (N : N)</text>
+    </g>
+  </svg>
+
+  <div class="box fact" style="left:560px; top:200px;">
+    <h2>fct_sales</h2>
+    <ul>
+      <li class="pk">sales_order_detail_id (PK)</li>
+      <li>sales_order_id</li>
+      <li class="fk">date_key (FK)</li>
+      <li class="fk">customer_key (FK)</li>
+      <li class="fk">product_key (FK)</li>
+      <li class="fk">credit_card_key (FK)</li>
+      <li class="fk">geography_key (FK)</li>
+      <li class="fk">status_key (FK)</li>
+      <li>is_online_order, is_promotion</li>
+      <li class="sep">order_qty</li>
+      <li>unit_price</li>
+      <li>gross_revenue</li>
+      <li>discount_amount</li>
+      <li>net_revenue</li>
+    </ul>
+    <div class="src">origem: salesorderdetail + salesorderheader</div>
+  </div>
+
+  <div class="box" style="left:60px; top:110px;">
+    <h2>dim_date</h2>
+    <ul><li class="pk">date_key (PK)</li><li>year_number, quarter_number</li><li>month_number, month_short_name</li><li>year_month</li></ul>
+    <div class="src">origem: gerada pelo dbt (date spine)</div>
+  </div>
+
+  <div class="box" style="left:60px; top:330px;">
+    <h2>dim_product</h2>
+    <ul><li class="pk">product_key (PK)</li><li>product_name, product_number</li><li>subcategory_name</li><li>category_name</li><li>color, size, list_price</li></ul>
+    <div class="src">origem: product + productsubcategory + productcategory</div>
+  </div>
+
+  <div class="box" style="left:60px; top:565px;">
+    <h2>dim_customer</h2>
+    <ul><li class="pk">customer_key (PK)</li><li>customer_name</li><li>customer_type (Pessoa / Revenda)</li></ul>
+    <div class="src">origem: customer + person + store</div>
+  </div>
+
+  <div class="box" style="left:1080px; top:110px;">
+    <h2>dim_geography</h2>
+    <ul><li class="pk">geography_key (PK)</li><li>city</li><li>state_province</li><li>country</li><li>postal_code</li></ul>
+    <div class="src">origem: address + stateprovince + countryregion (endereço de entrega)</div>
+  </div>
+
+  <div class="box" style="left:1080px; top:345px;">
+    <h2>dim_credit_card</h2>
+    <ul><li class="pk">credit_card_key (PK)</li><li>card_type</li><li>membro -1 = "Sem cartão"</li></ul>
+    <div class="src">origem: creditcard</div>
+  </div>
+
+  <div class="box" style="left:1080px; top:545px;">
+    <h2>dim_order_status</h2>
+    <ul><li class="pk">status_key (PK)</li><li>status_name</li></ul>
+    <div class="src">origem: seed order_status.csv</div>
+  </div>
+
+  <div class="box bridge" style="left:560px; top:720px; width:280px;">
+    <h2>br_order_sales_reason</h2>
+    <ul><li>sales_order_id</li><li>sales_reason_key</li></ul>
+    <div class="src">origem: salesorderheadersalesreason</div>
+  </div>
+
+  <div class="box" style="left:900px; top:720px;">
+    <h2>dim_sales_reason</h2>
+    <ul><li class="pk">sales_reason_key (PK)</li><li>sales_reason_name, sales_reason_type</li></ul>
+    <div class="src">origem: salesreason</div>
+  </div>
+
+  <div class="note" style="left:60px;">
+    <b>Por que o grão é o item do pedido</b>
+    É o nível mais fino disponível e responde às seis perguntas do negócio. Valores de cabeçalho (frete, imposto) ficaram fora do fato porque se repetiriam em cada item. Número de pedidos = COUNT(DISTINCT sales_order_id).
+  </div>
+  <div class="note" style="left:730px;">
+    <b>Por que existe a bridge</b>
+    Um pedido pode ter vários motivos de venda. Ligar o motivo direto ao fato multiplicaria a receita. A bridge isola esse N:N, e a flag is_promotion no fato responde à pergunta sobre promoção.
+  </div>
+</div>
+</body>
+</html>

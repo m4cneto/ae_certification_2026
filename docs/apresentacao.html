@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Visão Comercial Adventure Works</title>
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  :root { --ink:#1b1f27; --muted:#5b6474; --accent:#2e3fb8; --soft:#eef0fb; --warn:#9a5b00; }
+  * { box-sizing:border-box; }
+  body { margin:0; color:var(--ink); background:#fff; font:22px/1.45 "Segoe UI", Arial, sans-serif; }
+  .s { width:1280px; height:720px; padding:64px 80px; position:relative; page-break-after:always; overflow:hidden; }
+  .s:last-child { page-break-after:auto; }
+  .s::before { content:""; position:absolute; left:0; top:0; width:12px; height:100%; background:var(--accent); }
+  .tag { font-size:15px; text-transform:uppercase; letter-spacing:.12em; color:var(--accent); font-weight:600; margin-bottom:10px; }
+  h1 { font-size:46px; margin:0 0 18px; line-height:1.15; }
+  h2 { font-size:36px; margin:0 0 26px; line-height:1.2; }
+  p { margin:0 0 14px; }
+  ul { margin:0; padding-left:26px; }
+  li { margin-bottom:12px; }
+  .muted { color:var(--muted); }
+  .num { font-size:15px; position:absolute; right:40px; bottom:28px; color:var(--muted); }
+  .cols { display:flex; gap:40px; align-items:flex-start; }
+  .cols > div { flex:1; }
+  .big { font-size:64px; font-weight:700; color:var(--accent); line-height:1; }
+  .card { background:var(--soft); border-radius:8px; padding:20px 24px; }
+  .flow { display:flex; gap:14px; align-items:center; margin-top:30px; }
+  .flow div { flex:1; border:2px solid var(--accent); border-radius:8px; padding:18px; text-align:center; font-size:19px; min-height:150px; }
+  .flow b { display:block; font-size:22px; margin-bottom:6px; }
+  .flow span { color:var(--accent); font-size:28px; flex:0; border:0; min-height:0; padding:0; }
+  table { border-collapse:collapse; width:100%; font-size:19px; }
+  td, th { text-align:left; padding:9px 12px; border-bottom:1px solid #e4e7ec; vertical-align:top; }
+  th { color:var(--muted); font-weight:600; font-size:16px; text-transform:uppercase; letter-spacing:.05em; }
+  img { display:block; max-width:100%; }
+</style>
+</head>
+<body>
+
+<section class="s" style="display:flex;flex-direction:column;justify-content:center;">
+  <div class="tag">Analytics Engineer Certification 2026</div>
+  <h1>Visão Comercial Adventure Works</h1>
+  <p class="muted" style="font-size:26px;">Da base transacional à decisão: uma plataforma de dados para a área comercial.</p>
+  <p class="muted" style="margin-top:40px;">Manoel Neto</p>
+</section>
+
+<section class="s">
+  <div class="tag">O problema</div>
+  <h2>Hoje, cada pergunta comercial vira um pedido de SQL</h2>
+  <ul>
+    <li>Os dados existem, mas ficam num banco transacional feito para registrar pedidos, não para responder perguntas.</li>
+    <li>Toda análise depende do Gabriel (TI), e o resultado muda conforme quem faz a consulta.</li>
+    <li>A Diretoria Comercial já viu promessas de "data-driven" com CRM e Web Analytics que não entregaram.</li>
+    <li><b>Objetivo:</b> um modelo único e testado, com um dashboard que responde às perguntas da diretoria sem fila.</li>
+  </ul>
+  <div class="num">2</div>
+</section>
+
+<section class="s">
+  <div class="tag">O que foi construído</div>
+  <h2>Do dado cru ao dashboard</h2>
+  <div class="flow">
+    <div><b>Origem</b>AdventureWorks, schema adventure_works (CSV da Indicium)</div>
+    <span>→</span>
+    <div><b>EL</b>Carga para o warehouse (DuckDB) com script Python</div>
+    <span>→</span>
+    <div><b>dbt</b>staging → intermediate → marts, com documentação e testes</div>
+    <span>→</span>
+    <div><b>Power BI</b>Dashboard comercial com filtros e medidas DAX</div>
+  </div>
+  <p class="muted" style="margin-top:34px;">Código versionado no GitHub: github.com/m4cneto/ae_certification_2026</p>
+  <div class="num">3</div>
+</section>
+
+<section class="s">
+  <div class="tag">Modelo dimensional</div>
+  <div class="cols">
+    <div style="flex:1.5"><img src="../modelagem/modelo-conceitual.png" alt="Modelo conceitual" style="border:1px solid #e4e7ec;border-radius:6px;"></div>
+    <div>
+      <h2 style="font-size:30px;">Um fato, sete dimensões e uma bridge</h2>
+      <ul style="font-size:19px;">
+        <li>O fato é cada item vendido; as dimensões são as formas de olhar para ele.</li>
+        <li>Grão no item do pedido: responde às seis perguntas sem inflar valores.</li>
+        <li>Motivo da venda é N:N, por isso ficou numa bridge.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="num">4</div>
+</section>
+
+<section class="s">
+  <div class="tag">Confiança no número</div>
+  <h2>O número bate com a auditoria, e isso é testado sempre</h2>
+  <div class="cols">
+    <div class="card"><div class="big">12.646.112,16</div><p style="margin-top:12px;">Vendas brutas de 2011 apuradas pelo modelo: exatamente o valor da auditoria contábil citado pelo CEO.</p></div>
+    <div class="card"><div class="big">120</div><p style="margin-top:12px;">Verificações automáticas no dbt: chaves da origem, chaves primárias, integridade entre tabelas, faixas de valor e o teste de 2011. Todas passando.</p></div>
+  </div>
+  <div class="num">5</div>
+</section>
+
+<section class="s">
+  <div class="tag">Indicadores</div>
+  <h2>Os KPIs escolhidos e por quê</h2>
+  <table>
+    <tr><th>KPI</th><th>Por que está no painel</th></tr>
+    <tr><td>Receita líquida</td><td>É o número pelo qual a área comercial responde.</td></tr>
+    <tr><td>Pedidos e unidades</td><td>Separam crescimento por volume de crescimento por preço.</td></tr>
+    <tr><td>Ticket médio</td><td>(Receita bruta − descontos) / pedidos, como pede o enunciado.</td></tr>
+    <tr><td>Receita por canal</td><td>Online e revenda são negócios diferentes.</td></tr>
+    <tr><td>Ticket em promoção</td><td>Mostra se a promoção traz pedidos de valor.</td></tr>
+    <tr><td>Top 10 clientes, top 5 cidades</td><td>Pedidos diretos da diretoria (perguntas c e d).</td></tr>
+  </table>
+  <div class="num">6</div>
+</section>
+
+<section class="s">
+  <div class="tag">Insights da análise exploratória</div>
+  <div class="cols">
+    <div style="flex:1.3"><img src="img/receita_mensal.png" alt="Receita mensal"></div>
+    <div>
+      <ul style="font-size:19px;">
+        <li><b>Revenda gera 73% da receita</b> com só 12% dos pedidos. Ticket de 21 mil contra 1 mil do online.</li>
+        <li><b>Bikes são 86% da receita.</b> Roupas e acessórios vendem volume, não valor.</li>
+        <li><b>Carteira pulverizada:</b> os 10 maiores clientes somam 7,2%.</li>
+        <li><b>Receita oscila mês a mês</b>, puxada pelos pedidos de revenda.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="num">7</div>
+</section>
+
+<section class="s">
+  <div class="tag">O achado principal</div>
+  <div class="cols">
+    <div>
+      <h2>Promoção traz pedidos pequenos</h2>
+      <ul>
+        <li>Pedidos com motivo "On Promotion": <b>11% dos pedidos</b>, mas só <b>5,8% da receita</b>.</li>
+        <li>Ticket médio de <b>1.810</b>, metade dos <b>3.702</b> dos demais pedidos.</li>
+        <li>O produto mais vendido em promoção é a <b>Water Bottle - 30 oz.</b> (546 unidades).</li>
+      </ul>
+      <p class="muted" style="margin-top:18px;">Antes de ampliar a verba promocional, vale medir o retorno. Agora existe como medir.</p>
+    </div>
+    <div style="flex:.8"><img src="img/ticket_promocao.png" alt="Ticket com e sem promoção"></div>
+  </div>
+  <div class="num">8</div>
+</section>
+
+<section class="s">
+  <div class="tag">Dashboard</div>
+  <div class="cols">
+    <div style="flex:1.6"><img src="../bi/mockup.jpg" alt="Dashboard" style="border:1px solid #e4e7ec;border-radius:6px;"></div>
+    <div>
+      <h2 style="font-size:30px;">Uma página, seis perguntas</h2>
+      <ul style="font-size:19px;">
+        <li>KPIs no topo, detalhe abaixo.</li>
+        <li>Filtros de período, produto, cartão, motivo, status e geografia valem para todos os visuais.</li>
+        <li>Cada visual responde a uma pergunta do escopo (a até f).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="num">9</div>
+</section>
+
+<section class="s">
+  <div class="tag">Recomendações</div>
+  <h2>O que fazer a partir daqui</h2>
+  <ul>
+    <li><b>Metas separadas por canal.</b> Online e revenda têm tickets 20 vezes diferentes; uma meta única esconde os dois.</li>
+    <li><b>Testar a promoção antes de ampliar.</b> Escolher uma categoria, mudar a ação por um trimestre e medir ticket e volume no painel.</li>
+    <li><b>Proteger o negócio de bikes</b>, que concentra 86% da receita, e usar acessórios como venda complementar.</li>
+    <li><b>Próximo passo:</b> trazer CRM e Web Analytics para o mesmo modelo e medir o funil inteiro. A base já está pronta.</li>
+  </ul>
+  <p class="muted" style="margin-top:22px;">Cultura data-driven começa quando a reunião discute o número, e não de quem é o número certo.</p>
+  <div class="num">10</div>
+</section>
+
+</body>
+</html>

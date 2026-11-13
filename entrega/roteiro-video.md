@@ -1,98 +1,103 @@
-# Roteiro do video: 5 minutos
+# Roteiro do video: cerca de 4 minutos
 
-O entregavel 8 pede de 3 a 5 minutos. A etapa 9 lista oito demonstracoes
-obrigatorias; todas estao cobertas abaixo. Grave por blocos, nao em uma tomada so.
+Grave com o OBS Studio, tela inteira, voz por cima. Pode gravar em partes e juntar.
+Antes de gravar, deixe abertos: o terminal na pasta `dbt`, o PDF do modelo conceitual,
+o VS Code com `fct_sales.sql` e o PBIX.
 
-Comece pelos blocos 3 e 4, que sao os do terminal. Sao os que mais travam.
+No terminal, antes de tudo:
+
+```powershell
+cd dbt
+$env:DBT_PROFILES_DIR = $PWD
+```
 
 ---
 
-## Bloco 1: Objetivo (0:00 a 0:30)
+## 1. Objetivo (0:00 a 0:20)
 
-> "A Adventure Works fabrica bicicletas e cresce rapido, mas decide no escuro.
-> Construi uma plataforma de dados para a area comercial: do banco transacional
-> ate o dashboard, com testes que provam que os numeros batem com a contabilidade.
-> O que voces vao ver e o caminho completo."
+Tela: slide 1 ou 2 da apresentacao.
 
-## Bloco 2: Modelo dimensional (0:30 a 1:15)
+> "A Adventure Works quer usar dados para decidir na area comercial. Construi o caminho
+> completo: dos dados crus ate um dashboard, com testes que garantem que os numeros batem
+> com a auditoria."
 
-Mostre o modelo conceitual em PDF.
+## 2. Modelo dimensional (0:20 a 1:00)
 
-> "Uma tabela fato no grao de item de pedido e sete dimensoes em volta.
-> Duas decisoes importantes. A primeira: valores de cabecalho, como frete e imposto,
-> ficaram fora do fato, porque se repetiriam em cada item e inflariam qualquer soma.
-> A segunda: motivo da venda e muitos-para-muitos, entao usei uma bridge. Se eu
-> juntasse direto no fato, a receita seria contada uma vez por motivo do pedido."
+Tela: `modelagem/modelo-conceitual.pdf`.
 
-## Bloco 3: dbt run (1:15 a 1:45)
+> "O fato e o fct_sales, uma linha por item de pedido. Em volta estao sete dimensoes:
+> data, produto, cliente, geografia, cartao, status e motivo da venda. Como um pedido pode
+> ter varios motivos, o motivo fica numa tabela ponte, para nao duplicar a receita.
+> Embaixo de cada tabela esta a tabela de origem."
 
-Terminal, com o comando visivel na tela:
+## 3. EL e dbt run (1:00 a 1:30)
+
+Tela: terminal.
 
 ```
 dbt run
 ```
 
-> "Vinte e cinco modelos em tres camadas: staging espelha a origem, intermediate faz
-> os joins, marts entrega as dimensoes e o fato. Todos executaram."
+> "Os dados foram carregados do repositorio da Indicium para o warehouse, no schema
+> adventure_works. O dbt organiza em tres camadas: staging, intermediate e marts.
+> Todos os modelos rodaram com sucesso."
 
-## Bloco 4: Testes (1:45 a 2:45)
+## 4. Testes (1:30 a 2:15)
 
 ```
 dbt test --select source:*
 ```
 
-> "Primeiro os testes na fonte: chave primaria unica e nao nula nas tabelas cruas e
-> integridade referencial entre elas. Se o dado chegar quebrado, para aqui."
+> "Primeiro os testes na fonte: chaves unicas, nao nulas e relacionamentos. Todos passam."
 
 ```
 dbt test
 ```
 
-> "Agora o projeto inteiro: noventa e quatro testes. Chave primaria de cada dimensao,
-> integridade referencial de cada chave do fato, faixa de valor nas metricas e tres
-> testes singulares."
+> "Agora todos os testes do projeto: chaves primarias das dimensoes e do fato,
+> integridade entre fato e dimensoes, e testes de qualidade. O mais importante e este:
+> o CEO pediu que as vendas brutas de 2011 batessem com 12.646.112,16. O teste
+> assert_vendas_brutas_2011 confere isso, e passa."
 
-Aponte para o teste do CEO:
+## 5. A tabela fato (2:15 a 2:45)
 
-> "Este atende um pedido direto do CEO. Ele citou que as vendas brutas de 2011 foram
-> doze milhoes, seiscentos e quarenta e seis mil, cento e doze reais e dezesseis.
-> O teste falha se o modelo divergir disso em mais de um centavo. Enquanto ele
-> passar, o numero bate com a auditoria."
+Tela: `dbt/models/marts/fct_sales.sql` no VS Code.
 
-## Bloco 5: A tabela fato (2:45 a 3:30)
+> "O fato junta o item do pedido com o cabecalho e traz as chaves de cada dimensao.
+> As metricas sao quantidade, preco unitario, receita bruta, desconto e receita liquida.
+> Separei receita bruta e desconto para conseguir calcular o ticket medio como o enunciado pede."
 
-Abra `fct_sales.sql` e o lineage no dbt docs.
+## 6. Power BI (2:45 a 3:50)
 
-> "O fato junta o item do pedido com o cabecalho e carrega cinco metricas:
-> quantidade, preco unitario, receita bruta, desconto e receita liquida.
-> Separei receita bruta de desconto de proposito: e isso que permite medir taxa de
-> desconto, que e o indicador central da minha analise."
+Tela: PBIX, primeiro a Exibicao de modelo, depois o relatorio.
 
-## Bloco 6: Dashboard (3:30 a 4:40)
+> "No Power BI, o mesmo modelo estrela: o fato no centro e as dimensoes ligadas por chave.
+> As medidas DAX estao documentadas no campo descricao."
 
-> "O dashboard responde as seis perguntas do escopo." Passe por elas rapido.
+Troque para a pagina do relatorio:
 
-> "Os filtros no topo valem para a pagina inteira: periodo, produto, tipo de cartao,
-> motivo da venda, status e geografia."
+> "Os cartoes no topo dao o resumo. O grafico de linha mostra pedidos e receita por mes.
+> Aqui estao os 10 maiores clientes, as 5 maiores cidades, o ticket medio por produto e
+> os produtos mais vendidos em promocao: o primeiro e a Water Bottle."
 
-> "E aqui esta o achado principal: pedidos em promocao sao 11% dos pedidos, mas so 6% da receita, com metade do ticket medio. A promocao atrai compra pequena; vale medir o retorno antes de ampliar a verba."
+Clique em um filtro (por exemplo, pais = Canada) e mostre os visuais mudando:
 
-## Bloco 7: Fechamento (4:40 a 5:00)
+> "Todos os filtros do topo valem para a pagina inteira."
 
-> "A proxima camada natural e trazer CRM e web analytics para o mesmo modelo e medir
-> o funil inteiro. A base ja esta pronta para isso."
+> "O principal achado: pedidos em promocao sao 11% dos pedidos, mas so cerca de 6% da
+> receita, com metade do ticket medio. A recomendacao e medir o retorno das promocoes
+> antes de ampliar a verba."
+
+## 7. Fechamento (3:50 a 4:00)
+
+> "Com essa base, o proximo passo e trazer CRM e web analytics para o mesmo modelo.
+> Obrigado."
 
 ---
 
-## Checklist antes de postar
+## Antes de postar
 
-- [ ] `dbt run` aparece com todos os modelos em sucesso
-- [ ] `dbt test --select source:*` aparece passando
-- [ ] `dbt test` aparece passando
-- [ ] a tabela fato e os joins foram mostrados
-- [ ] as metricas do fato foram justificadas
-- [ ] os testes de dados foram apresentados
-- [ ] dashboard com filtros, visuais e possibilidades de analise
-- [ ] a modelagem dentro do Power BI foi mostrada
 - [ ] duracao entre 3 e 5 minutos
-- [ ] link publico, testado em aba anonima
+- [ ] apareceram `dbt run`, `dbt test --select source:*` e `dbt test` passando
+- [ ] apareceram o modelo dentro do Power BI e um filtro funcionando
+- [ ] YouTube como "Nao listado", link testado em aba anonima e colado em `links.txt`

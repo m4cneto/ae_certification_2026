@@ -6,7 +6,7 @@ select
     onlineorderflag             as is_online_order,
     shiptoaddressid             as ship_address_id,
     billtoaddressid             as bill_address_id,
-    coalesce(creditcardid, -1)  as credit_card_id,
+    cast(coalesce(creditcardid, -1) as bigint) as credit_card_id,
     territoryid                 as territory_id,
     subtotal                    as order_subtotal,
     taxamt                      as order_tax,
