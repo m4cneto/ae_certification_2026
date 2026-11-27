@@ -13,7 +13,7 @@ ae-project-certification/
   scripts/        carga dos dados crus para o DuckDB
   analise/        notebook de EDA (entregavel 1)
   modelagem/      modelo conceitual em draw.io (entregavel 2)
-  bi/             medidas DAX e mockup do dashboard (entregaveis 4 e 5)
+  bi/             dashboard .pbix, tema, medidas DAX e mockup (entregaveis 4 e 5)
   docs/           regras de negocio, KPIs e roteiro da apresentacao (entregaveis 6 e 7)
   entrega/        roteiro do video, links e checklist final (entregavel 8)
 ```
@@ -36,7 +36,7 @@ traz de la para o arquivo DuckDB, sempre no schema `adventure_works`.
 python scripts/carregar_dados.py postgres "postgresql://usuario:senha@host:5432/banco"
 
 # ou de uma pasta de CSVs
-python scripts/carregar_dados.py csv "C:/caminho/para/os/csv"
+python scripts/carregar_dados.py csv "C:/caminho/databricks-datasources/fea/adventure_works"
 ```
 
 ### 3. Rodar o dbt
@@ -96,11 +96,14 @@ integridade referencial, faixa de valores e tres testes singulares.
 O principal deles, `assert_vendas_brutas_2011`, atende um pedido direto do CEO:
 falha se as vendas de 2011 divergirem de **12.646.112,16** em mais de um centavo.
 
-## Pendencias
+## Entregaveis
 
-- [ ] Rodar o EL e carregar os dados
-- [ ] Conferir se os nomes de coluna da origem batem com os do staging
-- [ ] Confirmar qual definicao de receita bate com o numero da auditoria
-- [ ] Preencher os insights do notebook
-- [ ] Montar o PBIX e o mockup no Figma
-- [ ] Gravar o video
+| Entregavel | Arquivo |
+|---|---|
+| Notebook de EDA | `analise/eda.ipynb` |
+| Modelo conceitual | `modelagem/modelo-conceitual.pdf` |
+| Mockup do dashboard | `bi/mockup.jpg` |
+| Dashboard Power BI | `bi/dashboard-adventure-works.pbix` |
+| Regras de negocio | `docs/regras-de-negocio.md` |
+| Apresentacao | `docs/apresentacao.pdf` |
+| Links (repositorio e video) | `entrega/links.txt` |
